@@ -2,6 +2,18 @@
 <html lang="it" data-theme="light">
 <head>
   <meta charset="UTF-8" />
+  <!-- Open Graph / Twitter cards -->
+  <meta property="og:title" content="Andrea Migliorisi — Cyber Security Analyst" />
+  <meta property="og:description" content="Sicurezza applicativa · SAST · DAST · DevSecOps" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://andrea-migliorisi.github.io/" />
+  <meta property="og:image" content="https://andrea-migliorisi.github.io/assets/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="627" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Andrea Migliorisi — Cyber Security Analyst" />
+  <meta name="twitter:description" content="Sicurezza applicativa · SAST · DAST · DevSecOps" />
+  <meta name="twitter:image" content="https://andrea-migliorisi.github.io/assets/og-card.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Andrea Migliorisi | Portfolio</title>
   <style>
@@ -241,6 +253,29 @@
     #toTop{ position:fixed; right:.9rem; bottom:3.25rem; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:999px; box-shadow: var(--shadow); padding:.55rem .75rem; font-size:1.1rem; line-height:1; cursor:pointer; opacity:0; transform: translateY(10px) scale(.95); pointer-events:none; transition: opacity .2s ease, transform .2s ease, background .2s ease; }
     #toTop:hover{ transform: translateY(7px) scale(1); }
     #toTop.show{ opacity:1; transform: translateY(0) scale(1); pointer-events:auto; }
+      /* Anteprima social (mock LinkedIn/Twitter) */
+    .og-preview{ margin: 1rem 0 0; display:flex; justify-content:center; }
+    .og-card{ width: 100%; max-width: 560px; aspect-ratio: 16 / 9; border-radius: 14px; overflow:hidden; border:1px solid var(--border); box-shadow: var(--shadow); position:relative; background:
+      radial-gradient(900px 450px at 10% -20%, color-mix(in oklab, var(--secondary) 70%, transparent) 0%, transparent 60%),
+      radial-gradient(800px 400px at 100% 0%, color-mix(in oklab, var(--primary) 70%, transparent) 0%, transparent 60%),
+      radial-gradient(600px 300px at 50% 0%, color-mix(in oklab, var(--accent) 70%, transparent) 0%, transparent 55%),
+      linear-gradient(180deg, color-mix(in oklab, var(--card) 80%, #ffffff) 0%, color-mix(in oklab, var(--bg) 80%, #eef7ff) 100%);
+    }
+    .og-inner{ position:absolute; inset:0; padding:1rem; display:flex; flex-direction:column; gap:.5rem; }
+    .og-title{ font-size: clamp(1.1rem, 2.2vw, 1.6rem); font-weight:800; color: var(--ink); }
+    .og-role{ font-size: clamp(.95rem, 1.8vw, 1.1rem); color: var(--ink); opacity:.95 }
+    .og-chips{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.25rem }
+    .og-chip{ background:#fff; border:1px solid var(--border); border-radius:999px; padding:.3rem .6rem; font-weight:600; font-size:.85rem; color: var(--ink); }
+    .og-url{ position:absolute; left:1rem; bottom:1rem; background:#fff; border:1px solid var(--border); border-radius:999px; padding:.3rem .6rem; font-size:.85rem; color: var(--ink); box-shadow: var(--shadow); }
+      /* Layout about: 2 colonne desktop (anteprima a destra) */
+    .about-grid{ display:block; }
+    @media (min-width: 980px){
+      .about-grid{ display:grid; grid-template-columns: 1fr 520px; align-items:start; gap:1.25rem; }
+      .about-grid .og-preview{ order:2; }
+      .about-grid .og-preview .og-card{ max-width: unset; }
+    }
+    /* Nascondi l'anteprima social in produzione (sbloccabile via ?preview=1) */
+    .hide-og .og-preview{ display:none !important; }
   </style>
   <script>
     // Evita FOUC tema: applica subito il tema salvato o quello di sistema
@@ -249,6 +284,15 @@
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       const theme = stored || (prefersDark ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', theme);
+    })();
+    // Nascondi l'anteprima social in produzione, visibile solo con ?preview=1
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const forcePreview = params.get('preview') === '1';
+      const isProd = /andrea-migliorisi\.github\.io$/i.test(location.hostname);
+      if (isProd && !forcePreview) {
+        document.addEventListener('DOMContentLoaded', ()=> document.body.classList.add('hide-og'));
+      }
     })();
   </script>
 </head>
@@ -284,13 +328,31 @@
   </nav>
 
   <section aria-labelledby="chi-sono">
-    <h2 id="chi-sono"><span class="dot" aria-hidden="true"></span>Chi sono</h2>
-    <p class="lead">
-      Appassionato di cybersecurity e application security, con mentalità analitica e orientata al problem solving.
-      Lavoro su contesti enterprise regolamentati, collaborando con i team di sviluppo per prevenire e rimediare le vulnerabilità.
-      Mi piace esplorare nuove tecnologie e costruire soluzioni sicure e scalabili.
-    </p>
-    <a class="cta" href="mailto:andreamigliorisi99@gmail.com" aria-label="Scrivimi via email">📩 Contattami</a>
+    <div class="about-grid">
+      <div class="about-content">
+        <h2 id="chi-sono"><span class="dot" aria-hidden="true"></span>Chi sono</h2>
+        <p class="lead">
+          Appassionato di cybersecurity e application security, con mentalità analitica e orientata al problem solving.
+          Lavoro su contesti enterprise regolamentati, collaborando con i team di sviluppo per prevenire e rimediare le vulnerabilità.
+          Mi piace esplorare nuove tecnologie e costruire soluzioni sicure e scalabili.
+        </p>
+        <a class="cta" href="mailto:andreamigliorisi99@gmail.com" aria-label="Scrivimi via email">📩 Contattami</a>
+      </div>
+      <div class="og-preview" aria-label="Anteprima social">
+        <div class="og-card">
+          <div class="og-inner">
+            <div class="og-title">Andrea Migliorisi</div>
+            <div class="og-role">Cyber Security Analyst</div>
+            <div class="og-chips">
+              <span class="og-chip">Sicurezza Applicativa</span>
+              <span class="og-chip">SAST · DAST · SCA</span>
+              <span class="og-chip">DevSecOps</span>
+            </div>
+            <div class="og-url">andrea-migliorisi.github.io</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section aria-labelledby="badge">
@@ -354,6 +416,30 @@
         <a href="https://www.linux.org/" target="_blank" rel="noopener">
           <img src="assets/logos/linux.svg" alt="Linux" loading="lazy" decoding="async" />
           <figcaption>OS</figcaption>
+        </a>
+      </figure>
+      <figure>
+        <a href="https://www.postman.com/" target="_blank" rel="noopener">
+          <img src="assets/logos/postman.svg" alt="Postman" loading="lazy" decoding="async" />
+          <figcaption>API Testing</figcaption>
+        </a>
+      </figure>
+      <figure>
+        <a href="https://www.zaproxy.org/" target="_blank" rel="noopener">
+          <img src="assets/logos/owasp-zap.svg" alt="OWASP ZAP" loading="lazy" decoding="async" />
+          <figcaption>DAST</figcaption>
+        </a>
+      </figure>
+      <figure>
+        <a href="https://www.sonarsource.com/products/sonarqube/" target="_blank" rel="noopener">
+          <img src="assets/logos/sonarqube.svg" alt="SonarQube" loading="lazy" decoding="async" />
+          <figcaption>Code Quality · SAST</figcaption>
+        </a>
+      </figure>
+      <figure>
+        <a href="https://owasp.org/www-project-dependency-check/" target="_blank" rel="noopener">
+          <img src="assets/logos/owasp-dependency-check.svg" alt="OWASP Dependency-Check" loading="lazy" decoding="async" />
+          <figcaption>SCA</figcaption>
         </a>
       </figure>
     </div>
@@ -432,9 +518,9 @@
   <section aria-labelledby="contatti" class="contact">
     <h2 id="contatti"><span class="dot" aria-hidden="true"></span>Contatti</h2>
     <p>Email: <a href="mailto:andreamigliorisi99@gmail.com">andreamigliorisi99@gmail.com</a></p>
-    <p>Telefono: <a href="tel:+393348465752">334 846 5752</a></p>
+    <p>Telefono: <a href="tel:+393348465752">+39 334 846 5752</a></p>
     <p>LinkedIn: <a href="https://www.linkedin.com/in/andrea-migliorisi-9b66b124b" target="_blank" rel="noopener">linkedin.com/in/andrea-migliorisi-9b66b124b</a></p>
-    <p>GitHub / Portfolio: <a href="https://tuo-dominio.github.io" target="_blank" rel="noopener">andrea-migliorisi.github.io</a></p>
+    <p>GitHub / Portfolio: <a href="https://tuo-dominio.github.io" target="_blank" rel="noopener">tuo-dominio.github.io</a></p>
   </section>
 
   <footer>
